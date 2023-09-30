@@ -18,7 +18,6 @@ use App\Http\Controllers\Admin\FooterUsefulLinkController;
 use App\Http\Controllers\Admin\GeneralSettingController;
 use App\Http\Controllers\Admin\HeroController;
 use App\Http\Controllers\Admin\PortfolioItemController;
-use App\Http\Controllers\Admin\PortfolioSectionSetting;
 use App\Http\Controllers\Admin\PortfolioSectionSettingController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SeoSettingController;
@@ -28,9 +27,7 @@ use App\Http\Controllers\Admin\SkillItemController;
 use App\Http\Controllers\Admin\SkillSectionSettingController;
 use App\Http\Controllers\Admin\TyperTitleContoller;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Models\FooterInfo;
-use App\Models\SkillSectionSetting;
-use Illuminate\Foundation\Console\AboutCommand;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,7 +39,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 /** Frontend Routes */
 
@@ -52,7 +49,6 @@ Route::get('blog-details/{id}', [HomeController::class, 'showBlog'])->name('show
 Route::get('blogs', [HomeController::class, 'blog'])->name('blog');
 Route::post('contact', [HomeController::class, 'contact'])->name('contact');
 
-
 /** Admin Routes */
 
 Route::middleware('auth')->group(function () {
@@ -61,11 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
-Route::get('dashboard',[DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function(){
+Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Hero Route */
     Route::resource('hero', HeroController::class);
@@ -139,3 +135,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('seo-setting', SeoSettingController::class);
 
 });
+
+Route::get('/testEmail', [TestController::class, 'testEmail']);
+Route::get('/testSms', [TestController::class, 'testSms']);
